@@ -1,41 +1,37 @@
 import React,{useEffect,useState} from 'react'
 import {Link,useHistory} from "react-router-dom"
 import axios from "axios"
+import Card from "../../components/Card"
 
+//veri cek state e at
+//state deki veriyi sergile
 
-/* body: "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
-id: 1
-title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit"
-userId: 1
- */
 export default function Main() {
-    const [postList,setPostList]=useState([])
-
+    
+    const [userlist,setUserList]=useState([])
    
-
     const fetchData=()=>{
-        axios.get("https://jsonplaceholder.typicode.com/posts").then(res=>setPostList(res.data))
+        axios.get("https://randomuser.me/api/?results=50").then(res=>setUserList(res.data.results))
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         fetchData()
-    },[])
-
+    }, [])
+  
+    
     const history=useHistory()
     return (
-        <div style={{backgroundColor:"turquoise",display:"flex",color:"tomato",height:300}}>
-            {/* <Link to="/signin/5/9">SignIn</Link>
-            <button onClick={()=>history.push("/signin")}>Button</button> */}
-            
-      {/*     <p>
-              {postList.length>0 ? postList[0].body : null}
-              {postList.length && postList[0].body }
-              { postList[0]?.body }
-          </p> */}
+        <div style={{backgroundColor:"white",color:"black",display:"flex",flexWrap:"wrap",justifyContent:"center"}}>
 
-          {
-              postList.map(post=><p>{post.id}</p>)
-          }
+{/*             {
+                postlist.length>0 ? 
+                postlist.map(post=><p>{post.gender}</p>)
+                :
+                null
+            } */}
+
+           { userlist?.map(user=><Card user={user} key={user.login.uuid}/>)}
+
         </div>
     )
 }
